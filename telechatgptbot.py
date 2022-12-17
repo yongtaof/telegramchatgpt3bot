@@ -28,9 +28,13 @@ def handle_message(message):
     if len(AUTHORIZED_USER_IDS) > 0 and user_id not in AUTHORIZED_USER_IDS:
         bot.send_message(chat_id=message.chat.id, text="User not authorized userid:" + str(user_id))
     else:
-        response = generate_response(text)
-        print("\nResponse:", response, "\n")
-        bot.send_message(chat_id=message.chat.id, text=response)
+        try:
+            response = generate_response(text)
+            print("\nResponse:", response, "\n")
+            bot.send_message(chat_id=message.chat.id, text=response)
+        except Exception as e:
+            print(traceback.format_exc())
+            bot.send_message(chat_id=message.chat.id, text=traceback.format_exc())
 
 if __name__=="__main__":
     bot.polling()
